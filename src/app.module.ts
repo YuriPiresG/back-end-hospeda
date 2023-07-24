@@ -4,18 +4,25 @@ import { AppService } from './app.service';
 import { ActivitiesModule } from './activities/activities.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Activity } from './activities/entities/activity.entity';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'admin123',
-      database: 'activitiesManager',
-      entities: [Activity],
-      synchronize: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
+        console.log(configService.get<string>('DB_CONNECTION'));
+        return {
+          type: 'postgres',
+          url: configService.get<string>('DB_CONNECTION'),
+          entities: [Activity],
+          synchronize: true,
+        };
+      },
+      inject: [ConfigService],
     }),
     ActivitiesModule,
   ],

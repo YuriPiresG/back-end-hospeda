@@ -1,4 +1,4 @@
 export enum Privacy {
-  PUBLIC = 'PUBLIC',
-  PRIVATE = 'PRIVATE',
+  PUBLICO = 'Público',
+  PRIVADO = 'Privado',
 }

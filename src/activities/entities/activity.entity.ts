@@ -39,6 +39,6 @@ export class Activity {
   @Column({ type: 'date' })
   initialDate: Date;
 
-  @Column({ type: 'timestamptz' })
+  @Column({ type: 'time without time zone' })
   initialHour: Date;
 }
